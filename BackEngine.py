@@ -1,5 +1,6 @@
 from db import DataBase
 from configparser import ConfigParser
+from os import walk
 import pathlib
 import random
 
@@ -21,25 +22,60 @@ class BackEnd:
 
         for char in self.chars:
             self.chars_list.append(char)
-        print(self.chars_list)
 
-    def fetchData(self):
+    def fetchAllData(self):
         datas = dataBase.fetchAll()
         return datas
 
-    def addData(self, fname, lname, pnum, cname, cserial, ppic, cpic):
+    def addDataEngine(self, fname, lname, pnum, cname, cserial, ppic, cpic):
 
-        ext = '.png'
+        p_file = ''
+        c_file = ''
 
-        x = 1
-        char_list = ''
-        while x<=6:
-            rand = random.choice(self.chars)
-            char_list += rand
-            x+=1
+        if ppic != '':
+            with open(ppic, 'rb') as f:
+                p_file = f.read()
 
-        with open(ppic, 'rb') as f:
-            p_file = f.read()
+        if cpic != '':
+            with open(cpic, 'rb') as f:
+                c_file = f.read()
 
-        with open(img_path+char_list+ext, 'w') as f:
-            u_file = f.write(p_file)
+        if ppic == '':
+            with open(file_dir+'\\files\\assets\\images\\no_image.png', 'rb') as f:
+                p_file = f.read()
+
+        if cpic == '':
+            with open(file_dir+'\\files\\assets\\images\\no_image.png', 'rb') as f:
+                c_file = f.read()
+
+        if fname=='' or lname=='' or cname=='':
+            return "ግቡእ ዝኮነ ዋጋ ኣይሃቡን! በይዞኦም ተመሊሶም ብስሩዕ ይምልኡ"
+
+        if cserial == '' and cpic == '' :
+            return "ብዛዕባ እታ ኮምፒተር ግቡእ ዝኮነ መለለዪ ስለ ዘይሃቡ አንደገና ተመሊሶም ብስሩዕ ይምልኡ"
+
+        if pnum == '' and ppic == '' :
+            return "ብዛዕባ እቲ ሰብ ግቡእ ዝኮነ መለለዪ ስለ ዘይሃቡ አንደገና ተመሊሶም ብስሩዕ ይምልኡ"
+
+        if cserial == '' and cpic != '':
+            cserial = ''
+
+        elif cserial != '' and cpic == '':
+            cpic = ''
+
+        if pnum == '' and ppic != '':
+            pnum = ''
+
+        elif pnum != '' and ppic == '':
+            ppic = ''
+
+
+        result = dataBase.addData(fname, lname, pnum, cname, cserial, p_file, c_file)
+        return result
+
+    def delData(self, id):
+        dataBase.deleteData(id)
+
+    def fetchSpecifiedData(self, term, val):
+        datas = dataBase.searchData(term, val)
+        return datas
