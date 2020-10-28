@@ -143,7 +143,7 @@ class App:
         self.fname = Entry(self.entry_background_1, font=("arial", 15, "bold"), width=32, bg="#ECECEC", border=0, fg="#5A5959")
         self.fname.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-        self.fname_text = Label(self.register_body_container, text="ሽም", font=("arial", 15), bg="#FFFFFF", fg="#5A5959")
+        self.fname_text = Label(self.register_body_container, text="ሽም*", font=("arial", 15), bg="#FFFFFF", fg="#5A5959")
         self.fname_text.place(relx=0.05, rely=0.05)
 
         # last name entry
@@ -153,7 +153,7 @@ class App:
         self.lname = Entry(self.entry_background_2, font=("arial", 15, "bold"), width=32, bg="#ECECEC", border=0, fg="#5A5959")
         self.lname.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-        self.lname_text = Label(self.register_body_container, text="ሽም ኣቦ", font=("arial", 15), bg="#FFFFFF", fg="#5A5959")
+        self.lname_text = Label(self.register_body_container, text="ሽም ኣቦ*", font=("arial", 15), bg="#FFFFFF", fg="#5A5959")
         self.lname_text.place(relx=0.05, rely=0.16)
 
         # number name entry
@@ -173,7 +173,7 @@ class App:
         self.cname = Entry(self.entry_background_3, font=("arial", 15, "bold"), width=32, bg="#ECECEC", border=0, fg="#5A5959")
         self.cname.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-        self.cname_text = Label(self.register_body_container, text="ናይ ኮምፒተር ሽም", font=("arial", 15), bg="#FFFFFF", fg="#5A5959")
+        self.cname_text = Label(self.register_body_container, text="ናይ ኮምፒተር ሽም*", font=("arial", 15), bg="#FFFFFF", fg="#5A5959")
         self.cname_text.place(relx=0.05, rely=0.38)
 
         # computer serial name entry
