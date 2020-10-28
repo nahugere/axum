@@ -89,31 +89,73 @@
 #
 # # cur.execute('''INSERT INTO sss VALUES (?)''', (file,))
 # # con.commit()
-import tkinter as tk
+# import tkinter as tk
+#
+#
+# class PopUpConfirmQuit(tk.Toplevel):
+#     """A TopLevel popup that asks for confirmation that the user wants to quit.
+#                                                                               .
+#     Upon confirmation, the App is destroyed.
+#     If not, the popup closes and no further action is taken
+#     """
+#     def __init__(self, master=None):
+#         super().__init__(master)
+#         tk.Label(self, text="Are you sure you want to quit").pack()
+#         tk.Button(self, text='confirm', command=master.destroy, fg='red').pack(side=tk.RIGHT, fill=tk.BOTH, padx=5, pady=5)
+#         tk.Button(self, text='Nooooo!', command=self.destroy).pack(side=tk.RIGHT, fill=tk.BOTH, padx=5, pady=5)
+#
+#
+# class App(tk.Tk):
+#     """a minimal example App containing only a QUIT button, that launches
+#     a confirmation popup window
+#     """
+#     def __init__(self):
+#         super().__init__()
+#         self.quitbutton = tk.Button(self, text='QUIT', command=lambda: PopUpConfirmQuit(self))
+#         self.quitbutton.pack()
+#         self.mainloop()
+#
 
+# App()
 
-class PopUpConfirmQuit(tk.Toplevel):
-    """A TopLevel popup that asks for confirmation that the user wants to quit.
-                                                                              .
-    Upon confirmation, the App is destroyed.
-    If not, the popup closes and no further action is taken
-    """
-    def __init__(self, master=None):
-        super().__init__(master)
-        tk.Label(self, text="Are you sure you want to quit").pack()
-        tk.Button(self, text='confirm', command=master.destroy, fg='red').pack(side=tk.RIGHT, fill=tk.BOTH, padx=5, pady=5)
-        tk.Button(self, text='Nooooo!', command=self.destroy).pack(side=tk.RIGHT, fill=tk.BOTH, padx=5, pady=5)
+from tkinter import *
 
+root = Tk()
 
-class App(tk.Tk):
-    """a minimal example App containing only a QUIT button, that launches
-    a confirmation popup window
-    """
-    def __init__(self):
-        super().__init__()
-        self.quitbutton = tk.Button(self, text='QUIT', command=lambda: PopUpConfirmQuit(self))
-        self.quitbutton.pack()
-        self.mainloop()
+btn = Button(root, bg="white")
+btn.pack()
 
+lbl = Label(btn, text="hey").pack()
 
-App()
+btn2 = Button(btn)
+btn2.pack()
+
+root.mainloop()
+
+""" Snippets """
+
+# register
+self.register_image_label = Label(self.background_button_1, image=self.register_image, bg="#FBFBFB")
+self.register_image_label.place(relx=0.2, rely=0.5, anchor=CENTER)
+self.register_text = Label(self.background_button_1, text="መዝግብ", bg="#FBFBFB", font=("arial", 15))
+self.register_text.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+# list
+self.list_image_label = Label(self.background_button_2, image=self.list_image, bg="#FBFBFB")
+self.list_image_label.place(relx=0.2, rely=0.5, anchor=CENTER)
+self.list_text = Label(self.background_button_2, text="ዝርዝር", bg="#FBFBFB", font=("arial", 15))
+self.list_text.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+# search
+self.search_image_label = Label(self.background_button_3, image=self.search_image, bg="#FBFBFB")
+self.search_image_label.place(relx=0.2, rely=0.5, anchor=CENTER)
+self.search_text = Label(self.background_button_3, text="ኣልሽ", bg="#FBFBFB", font=("arial", 15))
+self.search_text.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+self.register_text.bind('<Button-1>', self.register)
+self.list_text.bind('<Button-1>', self.show)
+self.search_text.bind('<Button-1>', self.search)
+
+self.register_image_label.bind('<Button-1>', self.register)
+self.list_image_label.bind('<Button-1>', self.show)
+self.search_image_label.bind('<Button-1>', self.search)

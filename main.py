@@ -117,20 +117,21 @@ class App:
 
         self.des_prev()
 
+        self.bg_frame_1.config(bg="#3D3D3D")
+        self.bg_frame_2.config(bg="#1E1E1E")
+        self.bg_frame_3.config(bg="#1E1E1E")
+        self.bg_frame_4.config(bg="#1E1E1E")
+
         self.register_body_container = Frame(self.master, bg='white')
         self.register_body_container.pack(side=RIGHT, fill=BOTH, expand=1)
 
+        self.register_image_lbl.config(bg="#3D3D3D")
+        self.register_lbl.config(bg="#3D3D3D")
+        self.list_image_lbl.config(bg="#1E1E1E")
+        self.list_lbl.config(bg="#1E1E1E")
+        self.search_image_lbl.config(bg="#1E1E1E")
+        self.search_lbl_nav.config(bg="#1E1E1E")
 
-        self.register_text.config(fg='#000000')
-        self.list_text.config(fg='#000000')
-        self.search_text.config(fg='#000000')
-
-        self.register_image_label.config(image=self.register_image)
-        self.list_image_label.config(image=self.list_image)
-        self.search_image_label.config(image=self.search_image)
-
-        self.register_image_label.config(bg="#0278AE", image=self.register_image_sel)
-        self.register_text.config(bg="#0278AE", fg="white")
 
         # register elements
         self.entry_background_image = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\small_entry.png"))
@@ -254,6 +255,19 @@ class App:
     def show(self, event):
         self.des_prev()
 
+        self.bg_frame_1.config(bg="#1E1E1E")
+        self.bg_frame_2.config(bg="#3D3D3D")
+        self.bg_frame_3.config(bg="#1E1E1E")
+        self.bg_frame_4.config(bg="#1E1E1E")
+
+
+        self.register_image_lbl.config(bg="#1E1E1E")
+        self.register_lbl.config(bg="#1E1E1E")
+        self.list_image_lbl.config(bg="#3D3D3D")
+        self.list_lbl.config(bg="#3D3D3D")
+        self.search_image_lbl.config(bg="#1E1E1E")
+        self.search_lbl_nav.config(bg="#1E1E1E")
+
         self.show_body_container = Frame(self.master, bg='white')
         self.show_body_container.pack(side=RIGHT, fill=BOTH, expand=1)
 
@@ -310,6 +324,19 @@ class App:
             self.show('nothing')
 
     def show_item(self, event, pk):
+
+        self.bg_frame_1.config(bg="#1E1E1E")
+        self.bg_frame_2.config(bg="#3D3D3D")
+        self.bg_frame_3.config(bg="#1E1E1E")
+        self.bg_frame_4.config(bg="#1E1E1E")
+
+
+        self.register_image_lbl.config(bg="#1E1E1E")
+        self.register_lbl.config(bg="#1E1E1E")
+        self.list_image_lbl.config(bg="#3D3D3D")
+        self.list_lbl.config(bg="#3D3D3D")
+        self.search_image_lbl.config(bg="#1E1E1E")
+        self.search_lbl_nav.config(bg="#1E1E1E")
         datas = engine.fetchSpecifiedData('id', pk)
 
         self.des_prev()
@@ -367,6 +394,19 @@ class App:
     def search(self, event):
 
         self.des_prev()
+
+        self.bg_frame_1.config(bg="#1E1E1E")
+        self.bg_frame_2.config(bg="#1E1E1E")
+        self.bg_frame_3.config(bg="#3D3D3D")
+        self.bg_frame_4.config(bg="#1E1E1E")
+
+
+        self.register_image_lbl.config(bg="#1E1E1E")
+        self.register_lbl.config(bg="#1E1E1E")
+        self.list_image_lbl.config(bg="#1E1E1E")
+        self.list_lbl.config(bg="#1E1E1E")
+        self.search_image_lbl.config(bg="#3D3D3D")
+        self.search_lbl_nav.config(bg="#3D3D3D")
 
         self.search_body_container = Frame(self.master, bg='white')
         self.search_body_container.pack(side=RIGHT, fill=BOTH, expand=1)
@@ -475,31 +515,6 @@ class App:
         # top_serach_container
 
     def home(self, place):
-        # checking where the "request" is coming from
-        if place:
-            place.place_forget()
-
-        # changing background
-        self.master.config(bg="white")
-
-        # nav elements
-        self.nav_container = Frame(self.master, width=250, height=self.master.winfo_screenheight(), bg="#FBFBFB")
-        self.nav_container.pack(side=LEFT, fill=Y)
-
-        self.nav_logo_image = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\images\\aksum_university_logo_small.png"))
-        self.nav_logo = Label(self.nav_container, image=self.nav_logo_image, bg="#FBFBFB").place(relx=0.5, rely=0.15, anchor=CENTER)
-
-        self.university_name = Label(self.nav_container, text="ኣክሱም ዩኒቨርሲቲ", bg="#FBFBFB", fg="#5A5959", font=("arial", 17, "bold"))
-        self.university_name.place(relx=0.5, rely=0.25, anchor=CENTER)
-
-        self.background_frame_1 = Frame(self.nav_container, width=250, height=55, bg="#FBFBFB")
-        self.background_frame_2 = Frame(self.nav_container, width=250, height=55, bg="#FBFBFB")
-        self.background_frame_3 = Frame(self.nav_container, width=250, height=55, bg="#FBFBFB")
-
-        self.background_frame_1.place(x=0, rely=0.35)
-        self.background_frame_2.place(x=0, rely=0.45)
-        self.background_frame_3.place(x=0, rely=0.55)
-
 
         self.register_image = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\edit.png"))
         self.list_image = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\list.png"))
@@ -509,35 +524,102 @@ class App:
         self.list_image_sel = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\list_sel.png"))
         self.search_image_sel = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\search_sel.png"))
 
+        # checking where the "request" is coming from
+        if place:
+            place.place_forget()
+
+        # changing background
+        self.master.config(bg="white")
+
+        # nav elements
+        self.nav_container = Frame(self.master, width=260, height=self.master.winfo_screenheight(), bg="#1E1E1E")
+        self.nav_container.pack(side=LEFT, fill=Y)
+
+        self.bg_frame_1 = Frame(self.nav_container, height=60, width=225, bg="#1E1E1E")
+        self.bg_frame_2 = Frame(self.nav_container, height=60, width=225, bg="#1E1E1E")
+        self.bg_frame_3 = Frame(self.nav_container, height=60, width=225, bg="#1E1E1E")
+        self.bg_frame_4 = Frame(self.nav_container, height=60, width=225, bg="#1E1E1E")
+
+        self.bg_frame_1.place(x=10, rely=0.1)
+        self.bg_frame_2.place(x=10, rely=0.2)
+        self.bg_frame_3.place(x=10, rely=0.3)
+        self.bg_frame_4.place(x=10, rely=0.4)
+
         # register
-        self.register_image_label = Label(self.background_frame_1, image=self.register_image, bg="#FBFBFB")
-        self.register_image_label.place(relx=0.2, rely=0.5, anchor=CENTER)
-        self.register_text = Label(self.background_frame_1, text="መዝግብ", bg="#FBFBFB", font=("arial", 15))
-        self.register_text.place(relx=0.5, rely=0.5, anchor=CENTER)
+        self.register_image_lbl = Label(self.bg_frame_1, image=self.register_image_sel, bg="#1E1E1E")
+        self.register_image_lbl.place(x=40, rely=0.5, anchor=CENTER)
+        self.register_lbl = Label(self.bg_frame_1, text="መዝግብ", font=('arial', 18), bg="#1E1E1E", fg="white")
+        self.register_lbl.place(x=130, rely=0.5, anchor=CENTER)
 
         # list
-        self.list_image_label = Label(self.background_frame_2, image=self.list_image, bg="#FBFBFB")
-        self.list_image_label.place(relx=0.2, rely=0.5, anchor=CENTER)
-        self.list_text = Label(self.background_frame_2, text="ዝርዝር", bg="#FBFBFB", font=("arial", 15))
-        self.list_text.place(relx=0.5, rely=0.5, anchor=CENTER)
+        self.list_image_lbl = Label(self.bg_frame_2, image=self.list_image_sel, bg="#1E1E1E")
+        self.list_image_lbl.place(x=40, rely=0.5, anchor=CENTER)
+        self.list_lbl = Label(self.bg_frame_2, text="ዝርዝር", font=('arial', 18), bg="#1E1E1E", fg="white")
+        self.list_lbl.place(x=130, rely=0.5, anchor=CENTER)
 
         # search
-        self.search_image_label = Label(self.background_frame_3, image=self.search_image, bg="#FBFBFB")
-        self.search_image_label.place(relx=0.2, rely=0.5, anchor=CENTER)
-        self.search_text = Label(self.background_frame_3, text="ኣልሽ", bg="#FBFBFB", font=("arial", 15))
-        self.search_text.place(relx=0.5, rely=0.5, anchor=CENTER)
+        self.search_image_lbl = Label(self.bg_frame_3, image=self.search_image_sel, bg="#1E1E1E")
+        self.search_image_lbl.place(x=40, rely=0.5, anchor=CENTER)
+        self.search_lbl_nav = Label(self.bg_frame_3, text="ኣልሽ", font=('arial', 18), bg="#1E1E1E", fg="white")
+        self.search_lbl_nav.place(x=130, rely=0.5, anchor=CENTER)
 
-        self.register_text.bind('<Button-1>', self.register)
-        self.list_text.bind('<Button-1>', self.show)
-        self.search_text.bind('<Button-1>', self.search)
+        # click event
+        self.bg_frame_1.bind("<Button-1>", self.register)
+        self.bg_frame_2.bind("<Button-1>", self.show)
+        self.bg_frame_3.bind("<Button-1>", self.search)
 
-        self.register_image_label.bind('<Button-1>', self.register)
-        self.list_image_label.bind('<Button-1>', self.show)
-        self.search_image_label.bind('<Button-1>', self.search)
+        self.register_lbl.bind("<Button-1>", self.register)
+        self.list_lbl.bind("<Button-1>", self.show)
+        self.search_lbl_nav.bind("<Button-1>", self.search)
+
+        self.register_image_lbl.bind("<Button-1>", self.register)
+        self.list_image_lbl.bind("<Button-1>", self.show)
+        self.search_image_lbl.bind("<Button-1>", self.search)
+
+        # hover event
+
+        bg1 = [self.bg_frame_1, self.register_lbl, self.register_image_lbl]
+        bg2 = [self.bg_frame_2, self.list_lbl, self.list_image_lbl]
+        bg3 = [self.bg_frame_3, self.search_lbl_nav, self.search_image_lbl]
+
+        # enter
+        self.bg_frame_1.bind("<Enter>", lambda event, x=bg1, y="enter": self.nav_hover(event, x, y))
+        self.bg_frame_2.bind("<Enter>", lambda event, x=bg2, y="enter": self.nav_hover(event, x, y))
+        self.bg_frame_3.bind("<Enter>", lambda event, x=bg3, y="enter": self.nav_hover(event, x, y))
+
+        self.register_lbl.bind("<Enter>", lambda event, x=bg1, y="enter": self.nav_hover(event, x, y))
+        self.list_lbl.bind("<Enter>", lambda event, x=bg2, y="enter": self.nav_hover(event, x, y))
+        self.search_lbl_nav.bind("<Enter>", lambda event, x=bg3, y="enter": self.nav_hover(event, x, y))
+
+        self.register_image_lbl.bind("<Enter>", lambda event, x=bg1, y="enter": self.nav_hover(event, x, y))
+        self.list_image_lbl.bind("<Enter>", lambda event, x=bg2, y="enter": self.nav_hover(event, x, y))
+        self.search_image_lbl.bind("<Enter>", lambda event, x=bg3, y="enter": self.nav_hover(event, x, y))
+
+        # leave
+        self.bg_frame_1.bind("<Leave>", lambda event, x=bg1, y="leave": self.nav_hover(event, x, y))
+        self.bg_frame_2.bind("<Leave>", lambda event, x=bg2, y="leave": self.nav_hover(event, x, y))
+        self.bg_frame_3.bind("<Leave>", lambda event, x=bg3, y="leave": self.nav_hover(event, x, y))
+
+        self.register_lbl.bind("<Leave>", lambda event, x=bg1, y="leave": self.nav_hover(event, x, y))
+        self.list_lbl.bind("<Leave>", lambda event, x=bg2, y="leave": self.nav_hover(event, x, y))
+        self.search_lbl_nav.bind("<Leave>", lambda event, x=bg3, y="leave": self.nav_hover(event, x, y))
+
+        self.register_image_lbl.bind("<Leave>", lambda event, x=bg1, y="leave": self.nav_hover(event, x, y))
+        self.list_image_lbl.bind("<Leave>", lambda event, x=bg2, y="leave": self.nav_hover(event, x, y))
+        self.search_image_lbl.bind("<Leave>", lambda event, x=bg3, y="leave": self.nav_hover(event, x, y))
+
 
         self.register('nothing')
 
-        def __del__(self):
-            print("hey")
+    def nav_hover(self, event, x, y):
+        if x[0]['bg']=='#3D3D3D':
+            return None
+        else:
+            if y=="enter":
+                for z in x:
+                    z.config(bg='#2b2b2b')
+            if y=='leave':
+                for z in x:
+                    z.config(bg='#1E1E1E')
 
 app = App()
