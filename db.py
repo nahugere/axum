@@ -17,14 +17,15 @@ class DataBase:
             phone_num TEXT,
             computer_name TEXT,
             computer_serial TEXT,
+            serial_key TEXT,
             person_pic TEXT,
             computer_pic TEXT
         )''')
         self.conn.commit()
 
-    def addData(self, fname, lname, pnum, cname, cserial, ppic, cpic):
+    def addData(self, fname, lname, pnum, cname, cserial, user_serial_key, ppic, cpic):
         try:
-            self.cur.execute('''INSERT INTO all_data VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)''', (fname, lname, pnum, cname, cserial, ppic, cpic))
+            self.cur.execute('''INSERT INTO all_data VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?)''', (fname, lname, pnum, cname, cserial, user_serial_key, ppic, cpic))
             self.conn.commit()
             return True
         except Exception as e:
@@ -43,12 +44,19 @@ class DataBase:
             self.cur.execute('''SELECT * FROM all_data WHERE phone_num=?''', (val,))
         if term == 'cserial':
             self.cur.execute('''SELECT * FROM all_data WHERE computer_serial=?''', (val,))
+        if term == 'serialkey':
+            self.cur.execute('''SELECT * FROM all_data WHERE serial_key=?''', (val,))
         data = self.cur.fetchall()
         return data
 
     def deleteData(self, id):
-        self.cur.execute('''DELETE FROM all_data WHERE id=?''', (id,))
-        self.conn.commit()
+        try:
+            self.cur.execute('''DELETE FROM all_data WHERE id=?''', (id,))
+            self.conn.commit()
+            return True
+
+        except Exception as e:
+            return e
 
     def fetchAll(self):
         self.cur.execute('''SELECT * FROM all_data''')
@@ -57,5 +65,3 @@ class DataBase:
 
     def __del__(self):
         self.conn.close()
-
-db = DataBase('db.db')

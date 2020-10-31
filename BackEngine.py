@@ -1,5 +1,6 @@
 from db import DataBase
 from configparser import ConfigParser
+from msg import EmailMessager
 from os import walk
 import pathlib
 import random
@@ -11,13 +12,15 @@ file = config["database"]['file_name']
 file_dir = str(pathlib.Path(__file__).parent.absolute())
 dataBase = DataBase(file_dir+"\\files\\data\\"+file)
 
+messageEngine = EmailMessager()
+
 img_folder = config['database']['image_dir']
 img_path = file_dir+"\\files\\data\\"+img_folder
 
 class BackEnd:
 
     def __init__(self):
-        self.chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&?'
+        self.chars = '1234567890'
         self.chars_list = []
 
         for char in self.chars:
@@ -27,7 +30,19 @@ class BackEnd:
         datas = dataBase.fetchAll()
         return datas
 
-    def addDataEngine(self, fname, lname, pnum, cname, cserial, ppic, cpic):
+    def addDataEngine(self, fname, lname, pnum, cname, cserial, email, ppic, cpic):
+
+        self.user_serial_key = ''
+        for x in range(6):
+            c = random.choice(self.chars_list)
+            self.user_serial_key += c
+
+
+        if email!='':
+            try:
+                messageEngine.sendEmail(email, self.user_serial_key)
+            except:
+                pass
 
         p_file = ''
         c_file = ''
@@ -70,8 +85,11 @@ class BackEnd:
             ppic = ''
 
 
-        result = dataBase.addData(fname, lname, pnum, cname, cserial, p_file, c_file)
+        result = dataBase.addData(fname, lname, pnum, cname, cserial, self.user_serial_key, p_file, c_file)
         return result
+
+    def getSerialKey(self):
+        return self.user_serial_key
 
     def delData(self, id):
         dataBase.deleteData(id)

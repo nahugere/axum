@@ -26,6 +26,10 @@ class App:
         self.master.mainloop()
 
     def messages(self, message, message_type):
+        try:
+            self.message_container.destroy()
+        except:
+            pass
         self.message_container = Frame(self.master, highlightthickness=1)
         self.message_container.place(relx=0.23, y=10)
         self.message = Label(self.message_container, text=message, font=('arial', 13))
@@ -91,6 +95,7 @@ class App:
         phone = str(self.phone.get())
         cname = str(self.cname.get())
         serial = str(self.serial.get())
+        email = str(self.email.get())
         try:
             ppic = self.ppic_data
             cpic = self.cpic_data
@@ -98,17 +103,18 @@ class App:
             ppic = ''
             cpic = ''
 
-        res = engine.addDataEngine(fname, lname, phone, cname, serial, ppic, cpic)
+        res = engine.addDataEngine(fname, lname, phone, cname, serial, email, ppic, cpic)
         if res==True:
+            sk = engine.getSerialKey()
             self.fname.delete(0, END)
             self.lname.delete(0, END)
             self.phone.delete(0, END)
             self.cname.delete(0, END)
             self.serial.delete(0, END)
-            txt = self.ppic_text['text']
-            self.ppic_text['text'] = txt[0:-1]
-            self.cpic_text['text'] = self.cpic_text['text'][0:-1]
-            self.messages(fname+' ብትክክል ተመዝጊቡ ኣሎ','success')
+            self.email.delete(0, END)
+            self.ppic_text['fg'] = '#5A5959'
+            self.cpic_text['fg'] = '#5A5959'
+            self.messages(fname+' ብትክክል ተመዝጊቡ ኣሎ. መለለዪ ቑጽሪ '+sk,'success')
         else:
             self.messages(res,'error')
 
@@ -189,6 +195,19 @@ class App:
         self.container_1 = Frame(self.register_body_container, bg="white")
         self.container_1.place(relx=0.05, rely=0.6)
 
+        # email field
+        self.entry_background_3 = Label(self.register_body_container, image=self.entry_background_image, bg="#FFFFFF")
+        self.entry_background_3.place(relx=0.05, rely=0.63)
+
+        self.email = Entry(self.entry_background_3, font=("arial", 15, "bold"), width=32, bg="#ECECEC", border=0, fg="#5A5959")
+        self.email.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+        self.email_text = Label(self.register_body_container, text="ኢሜይል", font=("arial", 15), bg="#FFFFFF", fg="#5A5959")
+        self.email_text.place(relx=0.05, rely=0.59)
+
+        self.container_1 = Frame(self.register_body_container, bg="white")
+        self.container_1.place(relx=0.05, rely=0.69)
+
         # filedialog
         def getFile(type_pic):
             file = filedialog.askopenfilename(filetypes=[("Image files", ".png .jpg .jpeg .gif")])
@@ -203,14 +222,11 @@ class App:
             dir_ += file_dir[-1]
             if type_pic == 'ppic':
                 self.ppic_data = dir_
-                txt = self.ppic_text['text']
-                self.ppic_text['text'] = txt+'*'
-
+                self.ppic_text['fg'] = 'green'
 
             elif type_pic == 'cpic':
                 self.cpic_data = dir_
-                txt = self.cpic_text['text']
-                self.cpic_text['text'] = txt+'*'
+                self.cpic_text['fg'] = 'green'
 
         # person picture
         self.ppic_text = Label(self.container_1, text="ናይ ወናኒ ፎቶ", font=("arial", 15), bg="#FFFFFF", fg="#5A5959")
@@ -232,7 +248,7 @@ class App:
         self.register_button = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\images\\save_button.png"))
 
         self.register_save = Button(self.register_body_container, image=self.register_button, bg="#FFFFFF", border=0, command=self.saveData)
-        self.register_save.place(relx=0.05, rely=0.73)
+        self.register_save.place(relx=0.05, rely=0.8)
 
     def des_prev(self):
         try:
@@ -251,9 +267,17 @@ class App:
             self.show_body_container.destroy()
         except:
             pass
+        try:
+            self.scrl_bar.destroy()
+        except:
+            pass
+
 
     def show(self, event):
         self.des_prev()
+
+        self.scrl_bar = Scrollbar(self.master)
+        self.scrl_bar.pack(side=RIGHT, fill=Y)
 
         self.bg_frame_1.config(bg="#1E1E1E")
         self.bg_frame_2.config(bg="#3D3D3D")
@@ -268,8 +292,13 @@ class App:
         self.search_image_lbl.config(bg="#1E1E1E")
         self.search_lbl_nav.config(bg="#1E1E1E")
 
-        self.show_body_container = Frame(self.master, bg='white')
+        self.show_body_container = Canvas(self.master, bg='white', highlightthickness=0)
         self.show_body_container.pack(side=RIGHT, fill=BOTH, expand=1)
+
+        self.show_body_container.configure(yscrollcommand=self.scrl_bar.set)
+        self.scrl_bar.config(command=self.show_body_container.yview)
+
+        self.show_body_container.bind("<Configure>", lambda e: self.show_body_container.configure(scrollregion = self.show_body_container.bbox('all')))
 
         self.del_img = Image.open(file_dir+'\\files\\assets\\images\\delete.png')
         self.view_img = Image.open(file_dir+'\\files\\assets\\images\\view.png')
@@ -290,15 +319,18 @@ class App:
             id = data[0]
             self.ids.append(id)
 
+
+        y_c = 20
         for data in datas:
             self.frame_container = Frame(self.show_body_container, width=500, height=400, bg="#FBFBFB")
-            self.frame_container.pack(side=TOP, fill=X, padx=(20, 20), pady=(20,0), anchor=N)
+            self.show_body_container.create_window(20, y_c, window=self.frame_container, anchor=NW, width=660)
+            y_c += 220
 
             self.frame_container_1 = Frame(self.frame_container, bg="#FBFBFB")
-            self.frame_container_1.pack(side=LEFT, fill=X, padx=(20, 20), pady=(20,0))
+            self.frame_container_1.pack(side=LEFT, fill=X, padx=(20, 30), pady=(20,0))
 
             self.frame_container_2 = Frame(self.frame_container, bg="#FBFBFB")
-            self.frame_container_2.pack(side=RIGHT, fill=X, padx=(20, 20), pady=(20,0))
+            self.frame_container_2.pack(side=RIGHT, fill=X, padx=(40, 20), pady=(20,0))
 
             self.full_name_text = Label(self.frame_container_1, text='ምሉእ ስም፦ '+data[1]+' '+data[2], bg='#FBFBFB', font=('arial', 15)).pack(anchor=W, pady=(20,0), padx=(24,0))
             self.phone_number = Label(self.frame_container_1, text='ናይ ወናኒ ስልኪ፦ '+data[3], bg='#FBFBFB', font=('arial', 15)).pack(anchor=W, pady=(5,0), padx=(24,0))
@@ -319,7 +351,7 @@ class App:
             c+=1
 
     def delete_item(self, event, pk):
-        if messagebox.askquestion(title="ጥንቃቀ!", message='እዚ እኩብ ሓበሬታ ክትድምስሱ ኢኹም ትሙክሩ ዘለኹም! ርግጸኛ ዲኹም?')==True:
+        if messagebox.askyesno(title="ጥንቃቀ!", message='እዚ እኩብ ሓበሬታ ክትድምስሱ ኢኹም ትሙክሩ ዘለኹም! ርግጸኛ ዲኹም?'):
             engine.delData(pk)
             self.show('nothing')
 
@@ -414,7 +446,7 @@ class App:
         self.top_search_container = Frame(self.search_body_container, bg="white", width=300, height=100)
         self.top_search_container.pack(side=TOP, fill=X)
 
-        self.result_search_container = Frame(self.search_body_container, bg="white", width=300, height=100)
+        self.result_search_container = Canvas(self.search_body_container, bg="white", width=300, height=100, highlightthickness=0)
         self.result_search_container.pack(side=TOP, fill=BOTH, expand=1)
 
         self.search_input_image_data = Image.open(file_dir+'\\files\\assets\\images\\small_entry.png')
@@ -432,10 +464,10 @@ class App:
         self.search_entry = Entry(self.search_lbl, bg="#ECECEC", border=0, font=('arial',17), width=21)
         self.search_entry.place(x=10, rely=0.5, anchor=W)
 
-        self.val_dict = {"fname":"ብናይ መጀመርያ ሽም", "lname":"ብናይ ኣቦ ሽም", "cname":"ብናይ ኮምፒተር ሽም", "pnum":"ብስልኪ ቑጽሪ", "cserial":"ብናይ ኮምፒተር መለለዪ"}
+        self.val_dict = {"fname":"ብናይ መጀመርያ ሽም", "lname":"ብናይ ኣቦ ሽም", "cname":"ብናይ ኮምፒተር ሽም", "pnum":"ብስልኪ ቑጽሪ", "cserial":"ብናይ ኮምፒተር መለለዪ", "serialkey": 'ብመለለዪ ቑጽሪ'}
 
         self.search_by_var = StringVar()
-        self.search_by_values = ["ብናይ መጀመርያ ሽም", "ብናይ ኣቦ ሽም", "ብናይ ኮምፒተር ሽም", "ብስልኪ ቑጽሪ", "ብናይ ኮምፒተር መለለዪ"]
+        self.search_by_values = ["ብናይ መጀመርያ ሽም", "ብናይ ኣቦ ሽም", "ብናይ ኮምፒተር ሽም", "ብስልኪ ቑጽሪ", "ብናይ ኮምፒተር መለለዪ", "ብመለለዪ ቑጽሪ"]
         self.search_by = ttk.Combobox(self.top_search_container, textvariable=self.search_by_var, values=self.search_by_values, font=("arial", 15), width=17)
         self.search_by.set('ብናይ መጀመርያ ሽም')
         self.search_by.pack(side=LEFT, padx=(20, 0), pady=(10, 0))
@@ -445,6 +477,22 @@ class App:
                 self.frame_container.destroy()
             except:
                 pass
+            try:
+                self.result_search_container.destroy()
+            except:
+                pass
+
+            self.result_search_container = Canvas(self.search_body_container, bg="white", width=300, height=100, highlightthickness=0)
+            self.result_search_container.pack(side=TOP, fill=BOTH, expand=1)
+
+            self.scrl_bar = Scrollbar(self.result_search_container)
+            self.scrl_bar.pack(side=RIGHT, fill=Y)
+
+            self.result_search_container.configure(yscrollcommand=self.scrl_bar.set)
+            self.scrl_bar.config(command=self.result_search_container.yview)
+
+            self.result_search_container.bind("<Configure>", lambda e: self.result_search_container.configure(scrollregion = self.result_search_container.bbox('all')))
+
             self.del_img = Image.open(file_dir+'\\files\\assets\\images\\delete.png')
             self.view_img = Image.open(file_dir+'\\files\\assets\\images\\view.png')
 
@@ -463,9 +511,11 @@ class App:
                 id = data[0]
                 self.ids.append(id)
 
+            y_c = 20
             for data in datas:
                 self.frame_container = Frame(self.result_search_container, width=500, height=400, bg="#FBFBFB")
-                self.frame_container.pack(side=TOP, fill=X, padx=(20, 20), pady=(20,0), anchor=N)
+                self.result_search_container.create_window(20, y_c, window=self.frame_container, anchor=NW, width=660)
+                y_c += 220
 
                 self.frame_container_1 = Frame(self.frame_container, bg="#FBFBFB")
                 self.frame_container_1.pack(side=LEFT, fill=X, padx=(20, 20), pady=(20,0))
@@ -473,9 +523,12 @@ class App:
                 self.frame_container_2 = Frame(self.frame_container, bg="#FBFBFB")
                 self.frame_container_2.pack(side=RIGHT, fill=X, padx=(20, 20), pady=(20,0))
 
+                fn = data[1]+' '+data[2]
+                print(fn)
                 self.full_name_text = Label(self.frame_container_1, text='ምሉእ ስም፦ '+data[1]+' '+data[2], bg='#FBFBFB', font=('arial', 15)).pack(anchor=W, pady=(20,0), padx=(24,0))
                 self.phone_number = Label(self.frame_container_1, text='ናይ ወናኒ ስልኪ፦ '+data[3], bg='#FBFBFB', font=('arial', 15)).pack(anchor=W, pady=(5,0), padx=(24,0))
                 self.computer_name = Label(self.frame_container_1, text='ናይ ኮምፒተር ስም፦ '+data[4], bg='#FBFBFB', font=('arial', 15)).pack(anchor=W, pady=(5,0), padx=(24,0))
+
                 if data[5]!=None:
                     self.computer_serial = Label(self.frame_container_1, text='ናይ ኮምፒተር መለለዪ፦ '+data[5], bg='#FBFBFB', font=('arial', 15)).pack(anchor=W, pady=(5, 20), padx=(24,0))
                 self.delete_btn = Button(self.frame_container_2, bg="#FBFBFB", text=self.ids[c], image=self.delete_image, border=0)
@@ -502,7 +555,6 @@ class App:
             for val in self.val_dict:
                 if term == self.val_dict[val]:
                     search_by_val = val
-
                     break
 
             datas = engine.fetchSpecifiedData(search_by_val, word)
@@ -527,9 +579,6 @@ class App:
         # checking where the "request" is coming from
         if place:
             place.place_forget()
-
-        # changing background
-        self.master.config(bg="white")
 
         # nav elements
         self.nav_container = Frame(self.master, width=260, height=self.master.winfo_screenheight(), bg="#1E1E1E")
@@ -607,7 +656,6 @@ class App:
         self.register_image_lbl.bind("<Leave>", lambda event, x=bg1, y="leave": self.nav_hover(event, x, y))
         self.list_image_lbl.bind("<Leave>", lambda event, x=bg2, y="leave": self.nav_hover(event, x, y))
         self.search_image_lbl.bind("<Leave>", lambda event, x=bg3, y="leave": self.nav_hover(event, x, y))
-
 
         self.register('nothing')
 
