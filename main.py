@@ -2,6 +2,8 @@
     code authored by Abyssinya codes
 '''
 
+# print
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
@@ -22,7 +24,7 @@ class App:
         self.master.geometry('1200x900')
         self.master.config(bg="#FFFFFF")
         self.master.title("ኣክሱም ዩኒቨርሲቲ |   Aksum University")
-        self.signin()
+        self.home()
         self.master.mainloop()
 
     def messages(self, message, message_type):
@@ -49,45 +51,6 @@ class App:
             self.message.config(fg='#155724', bg='#D4EDDA')
             self.close_button.config(image=self.success_image, bg="#D4EDDA")
 
-
-    def signin(self):
-
-        # self.message_container = Frame(self.master, highlightbackground="#F5C6CB", highlightcolor="#F5C6CB", width=500, height=200, highlightthickness=1, bd=0, bg='#F8D7DA')
-        # self.message_container.place(x=50, y=10)
-        # sigin_container
-        self.sigin_container = Frame(self.master, width=450, height=593, bg="#FFFFFF")
-        self.sigin_container.place(relx=0.5, rely=0.45, anchor=CENTER)
-
-        # sign in components
-        self.logo_image = ImageTk.PhotoImage(Image.open(file_dir+'\\files\\assets\\images\\aksum_university_logo.png'))
-        self.logo = Label(self.sigin_container, image=self.logo_image, bg="#FFFFFF")
-        self.logo.place(relx=0.5, rely=0.15, anchor=CENTER)
-
-        self.welcome_message = Label(self.sigin_container, text="እንኳዕ ብደሓን መጹ", bg="#FFFFFF", fg="#5A5959", font=("consolas", 30))
-        self.welcome_message.place(relx=0.5, rely=0.35, anchor=CENTER)
-
-        self.username_text = Label(self.sigin_container, text="ናይ ተጠቃሚ ስም", bg="#FFFFFF", fg="#5D5D5D", font=("consolas", 17))
-        self.username_text.place(relx=0.25, rely=0.5, anchor=CENTER)
-
-        self.input_image = ImageTk.PhotoImage(Image.open(file_dir+'\\files\\assets\\images\\input_background_big.png'))
-        self.username_background = Label(self.sigin_container, image=self.input_image, bg="#FFFFFF")
-        self.username_background.place(relx=0.5, rely=0.58, anchor=CENTER)
-        self.username_input = Entry(self.username_background, font=("arial", 20, "bold"), bg="#DBDBDB", width=25, border=0, fg="#5A5959")
-        self.username_input.place(x=10, y=15)
-
-
-        self.password_text = Label(self.sigin_container, text="ናይ ተጠቃሚ ምስጢር ቁልፊ", bg="#FFFFFF", fg="#5D5D5D", font=("consolas", 17))
-        self.password_text.place(relx=0.35, rely=0.68, anchor=CENTER)
-
-        self.password_backgoround = Label(self.sigin_container, image=self.input_image, bg="#FFFFFF")
-        self.password_backgoround.place(relx=0.5, rely=0.76, anchor=CENTER)
-        self.password_input = Entry(self.password_backgoround, font=("arial", 25, "bold"), bg="#DBDBDB", width=20, border=0, fg="#5A5959", show="\u2022")
-        self.password_input.place(x=10, y=15)
-
-
-        self.sign_in_image = ImageTk.PhotoImage(Image.open(file_dir+'\\files\\assets\\images\\signin_button.png'))
-        self.sign_in_button = Button(self.sigin_container, image=self.sign_in_image, border=0, bg="#FFFFFF", command=lambda place=self.sigin_container: self.home(place))
-        self.sign_in_button.place(relx=0.5, rely=0.9, anchor=CENTER)
 
     def saveData(self):
         fname = str(self.fname.get())
@@ -378,7 +341,7 @@ class App:
 
         for data in datas:
 
-            self.person_image_data = Image.open(BytesIO(data[6]))
+            self.person_image_data = Image.open(BytesIO(data[7]))
             WP, HP = self.person_image_data.size
             if WP>=HP:
                 wp = 400
@@ -389,7 +352,7 @@ class App:
                 wp = int((hp*WP)/HP)
 
 
-            self.computer_image_data = Image.open(BytesIO(data[7]))
+            self.computer_image_data = Image.open(BytesIO(data[8]))
             WC, HC = self.computer_image_data.size
 
             if WC>=HC:
@@ -413,10 +376,10 @@ class App:
             self.computer_image = ImageTk.PhotoImage(self.computer_image_data.resize((wc, hc), Image.ANTIALIAS))
             self.cpic_label = Label(self.pic_container, bg="white", image=self.computer_image).pack(side=LEFT, anchor=N, padx=(20, 0), pady=(20, 20))
 
-            self.specify_fname = Label(self.text_container, fg="#797979", text="ምሉእ ስም፦ "+data[1]+' '+data[2], bg="white", font=('consolas', 20)).pack(side=TOP, anchor=W, padx=(20, 0))
-            self.specify_pnum = Label(self.text_container, fg="#797979", text="ናይ ወናኒ ስልኪ፦ "+data[3], bg="white", font=('consolas', 20)).pack(side=TOP, anchor=W, padx=(20, 0))
-            self.specify_cname = Label(self.text_container, fg="#797979", text="ናይ ኮምፒተር ስም፦ "+data[4], bg="white", font=('consolas', 20)).pack(side=TOP, anchor=W, padx=(20, 0))
-            self.specify_cserial = Label(self.text_container, fg="#797979", text="ናይ ኮምፒተር መለለዪ፦ "+data[5], bg="white", font=('consolas', 20)).pack(side=TOP, anchor=W, padx=(20, 0))
+            self.specify_fname = Label(self.text_container, fg="#454242", text="ምሉእ ስም፦ "+data[1]+' '+data[2], bg="white", font=('consolas', 20)).pack(side=TOP, anchor=W, padx=(20, 0))
+            self.specify_pnum = Label(self.text_container, fg="#454242", text="ናይ ወናኒ ስልኪ፦ "+data[3], bg="white", font=('consolas', 20)).pack(side=TOP, anchor=W, padx=(20, 0))
+            self.specify_cname = Label(self.text_container, fg="#454242", text="ናይ ኮምፒተር ስም፦ "+data[4], bg="white", font=('consolas', 20)).pack(side=TOP, anchor=W, padx=(20, 0))
+            self.specify_cserial = Label(self.text_container, fg="#454242", text="ናይ ኮምፒተር መለለዪ፦ "+data[5], bg="white", font=('consolas', 20)).pack(side=TOP, anchor=W, padx=(20, 0))
 
             self.specific_delete_btn = Button(self.text_container, bg="#FBFBFB", text=data[0], image=self.delete_image, border=0)
             self.specific_delete_btn.pack(side=TOP, anchor=W, padx=(20, 0), pady=(30,0))
@@ -566,7 +529,7 @@ class App:
 
         # top_serach_container
 
-    def home(self, place):
+    def home(self):
 
         self.register_image = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\edit.png"))
         self.list_image = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\list.png"))
@@ -576,9 +539,6 @@ class App:
         self.list_image_sel = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\list_sel.png"))
         self.search_image_sel = ImageTk.PhotoImage(Image.open(file_dir+"\\files\\assets\\svg\\search_sel.png"))
 
-        # checking where the "request" is coming from
-        if place:
-            place.place_forget()
 
         # nav elements
         self.nav_container = Frame(self.master, width=260, height=self.master.winfo_screenheight(), bg="#1E1E1E")
